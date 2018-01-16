@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Hero project</title>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Contrail One">
   </head>
   <body>
+    <br>
     <div id="screen">
       <div id="header">
         <div class="hp-block hero-hp-block">
@@ -13,9 +15,9 @@
             <div id="hero-hp-hurt"></div>
           </div>
           <div class="hp-text">
-            <span id="hero-hp" class="hp hero">130</span>
+            <span id="hero-hp">130</span>
               /
-            <span id="hero-max-hp" class="hp hero">130</span>
+            <span id="hero-max-hp">130</span>
           </div>
         </div>
         <div id="round-num">
@@ -26,43 +28,42 @@
             <div id="monster-hp-hurt"></div>
           </div>
           <div class="hp-text">
-            <span id="monster-hp" class="hp monster">130</span>
+            <span id="monster-hp">130</span>
               /
-            <span id="monster-max-hp" class="hp monster">130</span>
+            <span id="monster-max-hp">130</span>
           </div>
         </div>
       </div>
       <div id="plane">
         <div id="hero-image-block">
           <div class="skill-block">
-            <img src="images/skill1.png" id="skill1" class="skill-image">
+            <img src="images/skill.png" id="skill" class="skill-image">
           </div>
           <div class="character-block">
             <img src="images/hero.png" class="character-image hero-image">
-            <img class="effect-image" alt="effect" style="display: none">
-            <span class="hurt-text">  </span>
+            <img class="effect-image" style="display: none">
+            <span class="hurt-text"></span>
           </div>
         </div>
-        <dis id="monster-image-block">
+        <div id="monster-image-block">
           <div class="character-block">
             <img src="images/monster.png" class="character-image monster-image">
-            <img class="effect-image" alt="effect" style="display: none">
+            <img class="effect-image" style="display: none">
             <span class="hurt-text">  </span>
           </div>
         </div>
         <div id="dialog">
           <div class="win-dialog">
-            <h2> You Win!!! </h2>
-            <button onclick="window.location.reload();"> Play again? </button>
+            <h2> 獲得勝利!！! </h2>
+            <button onclick="location.reload();"> 再玩一次? </button>
           </div>
           <div class="lose-dialog">
-            <h2> You Lose! </h2>
-            <button onclick="window.location.reload();"> Try again? </button>
+            <h2> 你輸掉了! </h2>
+            <button onclick="location.reload();"> 再次挑戰? </button>
           </div>
         </div>
       </div>
     </div>
+    <script src="js/index.js"> </script>
   </body>
-
-  <script src="js/index.js"> </script>
 </html>

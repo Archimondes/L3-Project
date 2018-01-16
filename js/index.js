@@ -1,6 +1,9 @@
+"use strict";
+
 /*
   Hero and Monster class 的基礎 class
 */
+
 class BaseCharacter {
   constructor(name, hp, ap) {
     this.name = name;
@@ -10,18 +13,10 @@ class BaseCharacter {
     this.alive = true;
   }
 
-  isAlive() {
-    return this.alive;
-  }
-
   attack(character,damage) {
-    if (this.isAlive() == false) return;
-    console.log("攻擊 " + character.name + " 造成 " + damage + " 傷害");
-    character.getHurt(damage)
-  }
-
-  die() {
-    this.alive = false;
+    if (this.alive == false) return;
+    //console.log("攻擊 " + character.name + " 造成 " + damage + " 傷害");
+    character.getHurt(damage);
   }
 
   getHurt(damage) {
@@ -33,27 +28,31 @@ class BaseCharacter {
     var _this = this;
     var i = 1;
 
-    _this.timeInterval = setInterval(function() {
+    _this.id = setInterval(function() {
       //設定受攻擊動畫
       _this.element.getElementsByClassName("effect-image")[0].style.display = "block";
       _this.element.getElementsByClassName("effect-image")[0].src = 'images/effect/blade/'+ i +'.png';
       _this.element.getElementsByClassName("hurt-text")[0].classList.add("attacked");
-      _this.element.getElementsByClassName("hurt-text")[0].innerHTML = damage;
+      _this.element.getElementsByClassName("hurt-text")[0].textContent = damage;
       i++;
 
-      if (i > 7) {
+      if (i > 9) {
         //移除受攻擊動畫
         _this.element.getElementsByClassName("effect-image")[0].style.display = "none";
         _this.element.getElementsByClassName("hurt-text")[0].classList.remove("attacked");
-        _this.element.getElementsByClassName("hurt-text")[0].innerHTML = "";
-        clearInterval(_this.timeInterval);
+        _this.element.getElementsByClassName("hurt-text")[0].textContent = "";
+        clearInterval(_this.id);
       }
     }, 50);
   }
 
+  die() {
+    this.alive = false;
+  }
+
   updateHtml(hpElement, hurtElement) {
     //更新血量文字與血條
-    hpElement.innerHTML = this.hp;
+    hpElement.textContent = this.hp;
     hurtElement.style.width = (100 - this.hp / this.maxHp * 100) + "%"
   }
 }
@@ -80,7 +79,7 @@ class Monster extends BaseCharacter {
   }
 
   getHurt(damage) {
-    super.getHurt(damage)
+    super.getHurt(damage);
     this.updateHtml(this.hpElement, this.hurtElement)
   }
 }
@@ -98,46 +97,45 @@ class Hero extends BaseCharacter {
     this.hpElement.textContent = this.hp
     this.maxHpElement.textContent = this.maxHp
 
-    console.log("你的英雄" + this.name + "已經誕生了！");
+    console.log("召喚英雄 " + this.name + "！");
   }
 
   attack(character) {
-    var damage = Math.random() * (this.ap / 2.0) + (this.ap / 2.0)
+    var damage = Math.random() * (this.ap / 2) + (this.ap / 2)
     super.attack(character, Math.floor(damage));
   }
 
   getHurt(damage) {
-    super.getHurt(damage)
-    this.updateHtml(this.hpElement, this.hurtElement);
+    super.getHurt(damage);
+    super.updateHtml(this.hpElement, this.hurtElement);
   }
 }
 
-
-var hero = new Hero("Bernard", 100, 30);
-var monster = new Monster("Skeleton", 60, 10);
+var hero = new Hero("Bernard", 130, 30);
+var monster = new Monster("Skeleton", 130, 10);
 var rounds = 10;
 
-function isGameOver() {
+function endTurn() {
   //更新回合數，並檢查是否回合結束
   rounds--;
-  var roundElement = document.getElementById("round-num");
-  roundElement.innerHTML = rounds;
-
-  return (rounds == 0 || !hero.isAlive() || !monster.isAlive());
+  document.getElementById("round-num").textContent = rounds;
+  if(rounds < 1) {
+    finish();
+  }
 }
 
 function finish() {
-  //P5 顯示dialog
+  //顯示 dialog
   var dialog = document.getElementById("dialog")
   dialog.style.display = "block";
-  if (monster.isAlive() == false) {
-    dialog.classList.add("win")
-  } else if (hero.isAlive() == false) {
-    dialog.classList.add("lose")
+  if (monster.alive == false) {
+    dialog.classList.add("win");
+  } else {
+    dialog.classList.add("lose");
   }
 }
 
-function heroAttack(i) {
+function heroAttack() {
   // Hero 選技能時觸發回合開始
   document.getElementsByClassName("skill-block")[0].style.display = "none";
 
@@ -149,18 +147,19 @@ function heroAttack(i) {
       hero.attack(monster);
       hero.element.classList.remove("attacking");
     }, 500);
-  }, 100)
+  }, 100);
 
   setTimeout(function() {
     // Monster 攻擊
     // Monster 移動動畫
-    if (monster.isAlive()){
+    if (monster.alive){
       monster.element.classList.add("attacking")
       setTimeout(function() {
         monster.attack(hero);
         monster.element.classList.remove("attacking");
         //monster 攻擊完檢查是否回合結束
-        if (isGameOver() == true) {
+        endTurn();
+        if (hero.alive == false) {
           finish();
         } else {
           //新回合打開Hero skill
@@ -171,14 +170,13 @@ function heroAttack(i) {
       //Monster 陣亡
       finish();
     }
-  }, 1000)
-
+  }, 1100);
 }
 
 function addSkillEvent() {
-  // 設定技能事件驅動
-  var skill1 = document.getElementById("skill1");
-  skill1.onclick = function() { heroAttack(); }
+  // 設定技能事件驅動damage
+  var skill = document.getElementById("skill");
+  skill.onclick = function() { heroAttack(); }
 }
 
 addSkillEvent();

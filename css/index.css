@@ -2,11 +2,24 @@
   overflow: auto;
 }
 
-/* 大的畫面，黑色外框圍起來的部分 */
+/* 遊戲場景 */
 #screen {
   position: relative;
   width: 700px;
-  height: 500px;
+  height: 300px;
+  margin: 0px auto;
+}
+
+#plane {
+  height: 100%;
+  text-align: center;
+}
+
+/* 人物垂直置中的 css hacking */
+#plane:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
 }
 
 #header {
@@ -57,7 +70,7 @@
   transform: scaleX(-1);
 }
 
-/* 因為受.hero-hp-block反轉影響，要把文字反轉回來 */
+/* 因為受 .hero-hp-block 反轉影響，要把文字反轉回來 */
 .hero-hp-block .hp-text {
   transform: inherit;
 }
@@ -68,18 +81,6 @@
 
 .monster-hp-block .hp-text {
   text-align: right;
-}
-
-#plane {
-  height: 100%;
-  text-align: center;
-}
-/* 人物垂直置中的 css hacking */
-#plane:before {
-  content: '';
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
 }
 
 .character-image {
@@ -116,7 +117,7 @@
 #hero-image-block    .character-block .effect-image,
 #monster-image-block .character-block .effect-image {
   position: absolute;
-  left: 0px;
+  left: 60px;
   bottom: 0px;
 }
 
@@ -125,11 +126,12 @@
 #hero-image-block    .character-block .hurt-text,
 #monster-image-block .character-block .hurt-text {
   position: absolute;
-  font-size: 40px;
+  font-size: 60px;
   color: red;
   width: 100%;
   left: 0px;
   bottom: 50px;
+  font-family: "Contrail One";
   transition: bottom 500ms;
 }
 
@@ -147,7 +149,7 @@
 }
 
 
-/* 設定#monster-image-block .character-image 左右反轉*/
+/* 設定 #monster-image-block .character-image 左右反轉 */
 #monster-image-block .character-image {
   transform: scaleX(-1);
 }
@@ -162,7 +164,7 @@
   text-align: center;
 }
 
-/* 預設.win-dialog 與 .lose-dialog 為關閉，及其他共用的CSS */
+/* 預設 .win-dialog 與 .lose-dialog 為關閉，及其他共用的CSS */
 #dialog .win-dialog,
 #dialog .lose-dialog {
   display: none;
@@ -170,17 +172,17 @@
   margin: 0 auto;
   padding: 30px;
   width: 200px;
-  top: 200px;
+  top: 100px;
   background: white;
   border: 1px solid orange;
 }
 
-/* #dialog同時有win class的話 把下面的win-block 打開 */
+/* #dialog 同時有 win class 的話 把下面的win-block 打開 */
 #dialog.win .win-dialog {
   display: block;
 }
 
-/* #dialog同時有lose class的話 把下面的lose-block 打開 */
+/* #dialog 同時有 lose class 的話 把下面的lose-block 打開 */
 #dialog.lose .lose-dialog {
   display: block;
 }
